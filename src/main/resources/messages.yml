@@ -1,0 +1,18 @@
+config-version: 1
+
+messages:
+  prefix: "&8[&bPlayerWarps&8] "
+  no-permission: "%prefix%&cYou do not have permission to use this command."
+  only-player: "%prefix%&cOnly players can use this command."
+  unknown-command: "%prefix%&cUnknown command. Use &f/%command% help&c."
+  help:
+    header: "%prefix%&7Available commands:"
+    lines:
+      - "&b/%command% help &8- &fShow this help message."
+      - "&b/%command% reload &8- &fReload configuration and messages."
+  reload:
+    success: "%prefix%&aConfiguration reloaded successfully."
+    storage-restart-required: "%prefix%&eStorage settings changed. Restart the server to reconnect MySQL safely."
+    failed: "%prefix%&cReload failed: &f%error%"
+    invalid-command: "%prefix%&cReload failed because the configured command is invalid: &f%error%"
+    config-error: "%prefix%&cReload failed because one or more configuration files are invalid."

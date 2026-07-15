@@ -1,0 +1,13 @@
+config-version: 1
+
+mysql:
+  host: "localhost"
+  port: 3306
+  database: "hera_playerwarps"
+  username: "root"
+  password: ""
+  pool:
+    maximum-pool-size: 10
+    minimum-idle: 2
+    connection-timeout-ms: 5000
+    max-lifetime-ms: 1800000

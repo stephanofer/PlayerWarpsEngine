@@ -1,0 +1,58 @@
+config-version: 1
+
+server-id: "survival-1"
+
+commands:
+  primary: "pwarp"
+  aliases:
+    - "pw"
+    - "playerwarp"
+
+warps:
+  name-regex: "^[a-zA-Z0-9_-]{3,32}$"
+  reserved-names:
+    - "help"
+    - "set"
+    - "remove"
+    - "reload"
+    - "list"
+    - "open"
+    - "lock"
+    - "rename"
+    - "reset"
+    - "whitelist"
+  description-max-length: 160
+  allowed-worlds:
+    mode: "BLACKLIST"
+    worlds:
+      - "disabled_world"
+  default-locked: false
+  default-whitelist-enabled: false
+
+limits:
+  default: 10
+  numeric-permission:
+    enabled: true
+    prefix: "pwarp.limit."
+  groups:
+    vip:
+      permission: "pwarp.limit.vip"
+      amount: 20
+
+teleport:
+  delay-seconds: 3
+  cooldown-seconds: 2
+  cancel-on-move: true
+  cancel-on-damage: true
+  preload-chunk: true
+  generate-missing-chunks: false
+  max-teleports-per-tick: 3
+  unsafe-policy: "BLOCK"
+  bypass-delay-permission: "pwarp.delay.bypass"
+
+purge:
+  unsafe:
+    enabled: true
+  inactive:
+    enabled: false
+    days: 90

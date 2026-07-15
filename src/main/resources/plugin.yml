@@ -1,0 +1,13 @@
+name: PlayerWarpsEngine
+main: com.hera.playerwarps.PlayerWarpsPlugin
+version: ${version}
+author: HERA Network
+depend:
+  - zMenu
+softdepend:
+  - PlaceholderAPI
+permissions:
+  pwarp.help:
+    default: true
+  pwarp.admin.reload:
+    default: op
