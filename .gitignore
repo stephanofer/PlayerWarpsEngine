@@ -1,0 +1,13 @@
+.gradle/
+build/
+out/
+*.iml
+.idea/
+
+# Local runtime APIs supplied by the HERA server environment.
+libs/*.jar
+libs/server.jar
+libs/zmenu-1.0.3.7.jar
+
+
+
