@@ -15,9 +15,11 @@ public final class TeleportSettings {
     private final int maxTeleportsPerTick;
     private final UnsafePolicy unsafePolicy;
     private final String bypassDelayPermission;
+    private final boolean debug;
 
     private TeleportSettings(int delaySeconds, int cooldownSeconds, boolean cancelOnMove, boolean cancelOnDamage, boolean preloadChunk,
-                             boolean generateMissingChunks, int maxTeleportsPerTick, UnsafePolicy unsafePolicy, String bypassDelayPermission) {
+                             boolean generateMissingChunks, int maxTeleportsPerTick, UnsafePolicy unsafePolicy, String bypassDelayPermission,
+                             boolean debug) {
         this.delaySeconds = delaySeconds;
         this.cooldownSeconds = cooldownSeconds;
         this.cancelOnMove = cancelOnMove;
@@ -27,6 +29,7 @@ public final class TeleportSettings {
         this.maxTeleportsPerTick = maxTeleportsPerTick;
         this.unsafePolicy = unsafePolicy;
         this.bypassDelayPermission = bypassDelayPermission;
+        this.debug = debug;
     }
 
     public static TeleportSettings from(YamlDocument config) {
@@ -38,6 +41,7 @@ public final class TeleportSettings {
         boolean generateMissingChunks = config.getBoolean("teleport.generate-missing-chunks", false);
         int maxTeleportsPerTick = Math.max(1, config.getInt("teleport.max-teleports-per-tick", 3));
         String bypassDelayPermission = config.getString("teleport.bypass-delay-permission", "pwarp.delay.bypass").trim();
+        boolean debug = config.getBoolean("teleport.debug", false);
 
         String unsafePolicyName = config.getString("teleport.unsafe-policy", "BLOCK").trim().toUpperCase(Locale.ENGLISH);
         UnsafePolicy unsafePolicy;
@@ -48,7 +52,7 @@ public final class TeleportSettings {
         }
 
         return new TeleportSettings(delaySeconds, cooldownSeconds, cancelOnMove, cancelOnDamage, preloadChunk, generateMissingChunks,
-                maxTeleportsPerTick, unsafePolicy, bypassDelayPermission);
+                maxTeleportsPerTick, unsafePolicy, bypassDelayPermission, debug);
     }
 
     public int delaySeconds() {
@@ -85,6 +89,10 @@ public final class TeleportSettings {
 
     public String bypassDelayPermission() {
         return this.bypassDelayPermission;
+    }
+
+    public boolean debug() {
+        return this.debug;
     }
 
     public enum UnsafePolicy {

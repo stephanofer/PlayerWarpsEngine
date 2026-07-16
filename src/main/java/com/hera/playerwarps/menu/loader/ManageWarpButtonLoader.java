@@ -23,6 +23,7 @@ public final class ManageWarpButtonLoader extends AbstractButtonLoader {
 
     @Override
     protected ZButton create(YamlConfiguration configuration, String path) {
-        return new ManageWarpButton(this.menuService, configuration.getString(path + "action", ""));
+        String action = configuration.getString(path + "pwe-action", "");
+        return new ManageWarpButton(this.menuService, action);
     }
 }

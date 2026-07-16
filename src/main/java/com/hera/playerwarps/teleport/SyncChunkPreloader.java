@@ -25,11 +25,8 @@ public final class SyncChunkPreloader implements ChunkPreloader {
                         future.complete(true);
                         return;
                     }
-                    if (!generate && !world.chunkExists(chunkX, chunkZ)) {
-                        future.complete(false);
-                        return;
-                    }
-                    future.complete(world.loadChunk(chunkX, chunkZ, generate));
+                    boolean loaded = world.loadChunk(chunkX, chunkZ, generate);
+                    future.complete(loaded && world.isChunkLoaded(chunkX, chunkZ));
                 } catch (Throwable throwable) {
                     future.complete(false);
                 }

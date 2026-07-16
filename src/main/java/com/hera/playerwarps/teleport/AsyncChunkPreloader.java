@@ -20,9 +20,8 @@ public final class AsyncChunkPreloader implements ChunkPreloader {
                 future.complete(true);
                 return future;
             }
-            if (!generate && !world.chunkExists(chunkX, chunkZ)) {
-                future.complete(false);
-                return future;
+            if (!generate) {
+                return this.fallback.preload(world, chunkX, chunkZ, false);
             }
 
             world.getChunkAtAsync(chunkX, chunkZ, chunk -> future.complete(chunk != null && world.isChunkLoaded(chunkX, chunkZ)));

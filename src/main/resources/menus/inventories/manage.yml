@@ -5,7 +5,7 @@ patterns:
 items:
   info:
     type: PWE_MANAGE_WARP
-    action: none
+    pwe-action: none
     isPermanent: true
     slot: 13
     item:
@@ -21,14 +21,14 @@ items:
         - "&7%description%"
   teleport:
     type: PWE_MANAGE_WARP
-    action: teleport
+    pwe-action: teleport
     slot: 20
     item:
       material: ENDER_PEARL
       name: "&aTeletransportarse"
   lock:
     type: PWE_MANAGE_WARP
-    action: lock-toggle
+    pwe-action: lock-toggle
     slot: 21
     item:
       material: IRON_DOOR
@@ -37,7 +37,7 @@ items:
         - "&7Actual: &f%locked%"
   whitelist-toggle:
     type: PWE_MANAGE_WARP
-    action: whitelist-toggle
+    pwe-action: whitelist-toggle
     slot: 22
     item:
       material: BOOK
@@ -46,14 +46,14 @@ items:
         - "&7Actual: &f%whitelist%"
   whitelist-open:
     type: PWE_MANAGE_WARP
-    action: whitelist-open
+    pwe-action: whitelist-open
     slot: 23
     item:
       material: NAME_TAG
       name: "&bAbrir lista de acceso"
   reset:
     type: PWE_MANAGE_WARP
-    action: reset
+    pwe-action: reset
     slot: 24
     item:
       material: EYE_OF_ENDER
@@ -62,7 +62,7 @@ items:
         - "&7Requiere un segundo clic."
   remove:
     type: PWE_MANAGE_WARP
-    action: remove
+    pwe-action: remove
     slot: 31
     item:
       material: TNT
@@ -71,7 +71,7 @@ items:
         - "&7Requiere un segundo clic."
   back:
     type: PWE_MANAGE_WARP
-    action: back
+    pwe-action: back
     slot: 49
     item:
       material: ARROW

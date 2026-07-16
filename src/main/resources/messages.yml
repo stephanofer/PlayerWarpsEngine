@@ -1,4 +1,4 @@
-config-version: 1
+config-version: 2
 
 messages:
   prefix: "&8[&bWarps&8] "
@@ -64,6 +64,7 @@ messages:
   teleport-cancelled: "%prefix%&cTeletransporte cancelado."
   teleport-success: "%prefix%&aTe teletransportaste a &f%warp%&a."
   teleport-failed: "%prefix%&cNo se pudo completar el teletransporte."
+  teleport-chunk-unavailable: "%prefix%&cNo se pudo cargar la zona de destino del warp."
   teleport-world-missing: "%prefix%&cEl mundo de este warp no está disponible."
   teleport-cooldown: "%prefix%&cEsperá &f%seconds% &cantes de teletransportarte otra vez."
   teleport-locked: "%prefix%&cEste warp está bloqueado."

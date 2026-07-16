@@ -23,6 +23,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Level;
 
 public final class TeleportService {
 
@@ -157,6 +158,7 @@ public final class TeleportService {
         final Warp warp = this.warpCache.getById(pending.warpId()).orElse(null);
         if (warp == null) {
             this.pendingTeleports.remove(pending.playerUuid());
+            debugTeleportFailure(player, null, "warp no longer exists in cache during prepare", null);
             this.configManager.messages().send(player, "messages.teleport-failed");
             return;
         }
@@ -164,6 +166,7 @@ public final class TeleportService {
         World world = Bukkit.getWorld(warp.location().world());
         if (world == null) {
             this.pendingTeleports.remove(pending.playerUuid());
+            debugTeleportFailure(player, warp, "destination world is not loaded", null);
             this.configManager.messages().send(player, "messages.teleport-world-missing");
             return;
         }
@@ -182,7 +185,8 @@ public final class TeleportService {
                     pendingTeleports.remove(pending.playerUuid());
                     Player current = Bukkit.getPlayer(pending.playerUuid());
                     if (current != null && current.isOnline()) {
-                        configManager.messages().send(current, "messages.teleport-failed");
+                        debugTeleportFailure(current, warp, "destination chunk could not be loaded", throwable);
+                        configManager.messages().send(current, "messages.teleport-chunk-unavailable");
                     }
                     return;
                 }
@@ -226,6 +230,7 @@ public final class TeleportService {
         Warp warp = this.warpCache.getById(pending.warpId()).orElse(null);
         if (warp == null) {
             this.pendingTeleports.remove(pending.playerUuid());
+            debugTeleportFailure(player, null, "warp no longer exists in cache during final teleport", null);
             this.configManager.messages().send(player, "messages.teleport-failed");
             return;
         }
@@ -245,6 +250,7 @@ public final class TeleportService {
         Location location = toBukkitLocation(warp.location());
         if (location == null) {
             this.pendingTeleports.remove(pending.playerUuid());
+            debugTeleportFailure(player, warp, "destination world disappeared before final teleport", null);
             this.configManager.messages().send(player, "messages.teleport-world-missing");
             return;
         }
@@ -252,6 +258,7 @@ public final class TeleportService {
         boolean teleported = player.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
         this.pendingTeleports.remove(pending.playerUuid());
         if (!teleported) {
+            debugTeleportFailure(player, warp, "Bukkit Player#teleport returned false, likely cancelled by another plugin or server guard", null);
             this.configManager.messages().send(player, "messages.teleport-failed");
             return;
         }
@@ -269,5 +276,32 @@ public final class TeleportService {
             return null;
         }
         return new Location(world, warpLocation.x(), warpLocation.y(), warpLocation.z(), warpLocation.yaw(), warpLocation.pitch());
+    }
+
+    private void debugTeleportFailure(Player player, Warp warp, String reason, Throwable throwable) {
+        if (!this.configManager.settings().teleportSettings().debug()) {
+            return;
+        }
+
+        StringBuilder message = new StringBuilder("[PlayerWarpsEngine] Teleport failed");
+        if (player != null) {
+            message.append(" player=").append(player.getName()).append(" uuid=").append(player.getUniqueId());
+        }
+        if (warp != null) {
+            WarpLocation location = warp.location();
+            message.append(" warp=").append(warp.name())
+                    .append(" id=").append(warp.id())
+                    .append(" world=").append(location.world())
+                    .append(" x=").append(location.x())
+                    .append(" y=").append(location.y())
+                    .append(" z=").append(location.z());
+        }
+        message.append(" reason=").append(reason);
+
+        if (throwable == null) {
+            Bukkit.getLogger().warning(message.toString());
+        } else {
+            Bukkit.getLogger().log(Level.WARNING, message.toString(), throwable);
+        }
     }
 }

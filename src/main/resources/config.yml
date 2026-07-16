@@ -1,4 +1,4 @@
-config-version: 1
+config-version: 2
 
 server-id: "survival-1"
 
@@ -58,6 +58,7 @@ teleport:
   max-teleports-per-tick: 3
   unsafe-policy: "BLOCK"
   bypass-delay-permission: "pwarp.delay.bypass"
+  debug: false
 
 purge:
   unsafe:

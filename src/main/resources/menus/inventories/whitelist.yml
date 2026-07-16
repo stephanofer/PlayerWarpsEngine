@@ -21,7 +21,7 @@ items:
         - "&eClic izquierdo &7para quitar."
   toggle:
     type: PWE_MANAGE_WARP
-    action: whitelist-toggle
+    pwe-action: whitelist-toggle
     isPermanent: true
     slot: 49
     item:
@@ -31,7 +31,7 @@ items:
         - "&7Actual: &f%whitelist%"
   back:
     type: PWE_MANAGE_WARP
-    action: manage-back
+    pwe-action: manage-back
     isPermanent: true
     slot: 45
     item:
