@@ -7,15 +7,15 @@ items:
     slot: 48
     item:
       material: ARROW
-      name: "&bPrevious page"
+      name: "&bPágina anterior"
       lore:
-        - "&7Page &f%page%&7/&f%maxPage%"
+        - "&7Página &f%page%&7/&f%maxPage%"
   next:
     type: NEXT
     isPermanent: true
     slot: 50
     item:
       material: ARROW
-      name: "&bNext page"
+      name: "&bPágina siguiente"
       lore:
-        - "&7Page &f%page%&7/&f%maxPage%"
+        - "&7Página &f%page%&7/&f%maxPage%"

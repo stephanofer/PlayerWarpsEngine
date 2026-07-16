@@ -76,6 +76,6 @@ menus:
     data: 0
 
 placeholders:
-  fallback: "N/A"
-  locked: "yes"
+  fallback: "N/D"
+  locked: "sí"
   unlocked: "no"

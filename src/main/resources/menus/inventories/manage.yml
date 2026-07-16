@@ -1,5 +1,5 @@
 size: 54
-name: "&8Manage &b%warp%"
+name: "&8Administrar &b%warp%"
 patterns:
   - "pwe_decoration"
 items:
@@ -12,11 +12,11 @@ items:
       material: PAPER
       name: "&b%warp%"
       lore:
-        - "&7Owner: &f%owner%"
-        - "&7World: &f%world%"
-        - "&7Visits: &f%visits%"
-        - "&7Lock: &f%locked%"
-        - "&7Whitelist: &f%whitelist%"
+        - "&7Dueño: &f%owner%"
+        - "&7Mundo: &f%world%"
+        - "&7Visitas: &f%visits%"
+        - "&7Bloqueo: &f%locked%"
+        - "&7Lista de acceso: &f%whitelist%"
         - ""
         - "&7%description%"
   teleport:
@@ -25,54 +25,54 @@ items:
     slot: 20
     item:
       material: ENDER_PEARL
-      name: "&aTeleport"
+      name: "&aTeletransportarse"
   lock:
     type: PWE_MANAGE_WARP
     action: lock-toggle
     slot: 21
     item:
       material: IRON_DOOR
-      name: "&eToggle lock"
+      name: "&eCambiar bloqueo"
       lore:
-        - "&7Current: &f%locked%"
+        - "&7Actual: &f%locked%"
   whitelist-toggle:
     type: PWE_MANAGE_WARP
     action: whitelist-toggle
     slot: 22
     item:
       material: BOOK
-      name: "&eToggle whitelist"
+      name: "&eCambiar lista de acceso"
       lore:
-        - "&7Current: &f%whitelist%"
+        - "&7Actual: &f%whitelist%"
   whitelist-open:
     type: PWE_MANAGE_WARP
     action: whitelist-open
     slot: 23
     item:
       material: NAME_TAG
-      name: "&bOpen whitelist"
+      name: "&bAbrir lista de acceso"
   reset:
     type: PWE_MANAGE_WARP
     action: reset
     slot: 24
     item:
       material: EYE_OF_ENDER
-      name: "&6Reset location"
+      name: "&6Actualizar ubicación"
       lore:
-        - "&7Requires a second click."
+        - "&7Requiere un segundo clic."
   remove:
     type: PWE_MANAGE_WARP
     action: remove
     slot: 31
     item:
       material: TNT
-      name: "&cRemove warp"
+      name: "&cEliminar warp"
       lore:
-        - "&7Requires a second click."
+        - "&7Requiere un segundo clic."
   back:
     type: PWE_MANAGE_WARP
     action: back
     slot: 49
     item:
       material: ARROW
-      name: "&bBack"
+      name: "&bVolver"

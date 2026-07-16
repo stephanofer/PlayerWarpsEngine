@@ -138,7 +138,7 @@ public final class WarpPurgeService {
         this.sessions.put(sessionKey(sender), new PurgeSession(type, ids, System.currentTimeMillis() + CONFIRM_TTL_MILLIS));
 
         Map<String, String> placeholders = new HashMap<String, String>();
-        placeholders.put("type", type);
+        placeholders.put("type", type.equals("unsafe") ? "ubicaciones inseguras" : "warps inactivos");
         placeholders.put("amount", String.valueOf(ids.size()));
         this.configManager.messages().send(sender, "messages.purge-preview", placeholders);
 

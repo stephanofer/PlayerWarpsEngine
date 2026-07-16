@@ -1,5 +1,5 @@
 size: 54
-name: "&8Whitelist &b%warp% &7%page%/%maxPage%"
+name: "&8Acceso &b%warp% &7%page%/%maxPage%"
 patterns:
   - "pwe_decoration"
   - "pwe_pagination"
@@ -18,7 +18,7 @@ items:
       lore:
         - "&7UUID: &f%member_uuid%"
         - ""
-        - "&eLeft-click &7to remove."
+        - "&eClic izquierdo &7para quitar."
   toggle:
     type: PWE_MANAGE_WARP
     action: whitelist-toggle
@@ -26,9 +26,9 @@ items:
     slot: 49
     item:
       material: BOOK
-      name: "&eToggle whitelist"
+      name: "&eCambiar lista de acceso"
       lore:
-        - "&7Current: &f%whitelist%"
+        - "&7Actual: &f%whitelist%"
   back:
     type: PWE_MANAGE_WARP
     action: manage-back
@@ -36,4 +36,4 @@ items:
     slot: 45
     item:
       material: ARROW
-      name: "&bBack"
+      name: "&bVolver"

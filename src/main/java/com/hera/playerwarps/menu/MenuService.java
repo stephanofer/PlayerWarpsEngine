@@ -354,9 +354,9 @@ public final class MenuService {
     public Placeholders sessionPlaceholders(Player player) {
         MenuSession session = session(player);
         Placeholders placeholders = new Placeholders();
-        placeholders.register("scope", session.scope() == WarpScope.MY_WARPS ? "my-warps" : "all");
-        placeholders.register("sort", session.sort().configName());
-        placeholders.register("query", session.query().isEmpty() ? "none" : session.query());
+        placeholders.register("scope", session.scope() == WarpScope.MY_WARPS ? "mis warps" : "todos");
+        placeholders.register("sort", sortName(session.sort()));
+        placeholders.register("query", session.query().isEmpty() ? "sin búsqueda" : session.query());
         placeholders.register("total", String.valueOf(this.warpCache.totalWarps()));
         placeholders.register("amount", String.valueOf(this.warpCache.countByOwner(player.getUniqueId())));
         placeholders.register("limit", String.valueOf(this.warpLimitService.cached(player)));
@@ -377,10 +377,10 @@ public final class MenuService {
     private void registerWarp(Placeholders placeholders, Warp warp) {
         placeholders.register("warp", warp.name());
         placeholders.register("owner", warp.ownerName());
-        placeholders.register("description", warp.description() == null || warp.description().trim().isEmpty() ? "No description" : warp.description());
+        placeholders.register("description", warp.description() == null || warp.description().trim().isEmpty() ? "Sin descripción" : warp.description());
         placeholders.register("visits", String.valueOf(this.visitBuffer.effectiveVisits(warp)));
-        placeholders.register("locked", warp.locked() ? "locked" : "unlocked");
-        placeholders.register("whitelist", warp.whitelistEnabled() ? "enabled" : "disabled");
+        placeholders.register("locked", warp.locked() ? "bloqueado" : "desbloqueado");
+        placeholders.register("whitelist", warp.whitelistEnabled() ? "activada" : "desactivada");
         placeholders.register("world", warp.location().world());
     }
 
@@ -507,7 +507,7 @@ public final class MenuService {
         ItemStack itemStack = new ItemStack(material, 1, this.configManager.settings().menuSettings().fallbackIconData());
         ItemMeta meta = itemStack.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(Texts.color("&bPlayer Warp"));
+            meta.setDisplayName(Texts.color("&bWarp de jugador"));
             itemStack.setItemMeta(meta);
         }
         return itemStack;
@@ -520,5 +520,22 @@ public final class MenuService {
     private static String nameOf(String resource) {
         String fileName = resource.substring(resource.lastIndexOf('/') + 1);
         return fileName.endsWith(".yml") ? fileName.substring(0, fileName.length() - 4) : fileName;
+    }
+
+    private static String sortName(WarpSort sort) {
+        switch (sort) {
+            case NEWEST:
+                return "más recientes";
+            case OLDEST:
+                return "más antiguos";
+            case MOST_VISITS:
+                return "más visitados";
+            case ALPHABETICAL:
+                return "alfabético";
+            case OWNER:
+                return "dueño";
+            default:
+                return sort.configName();
+        }
     }
 }

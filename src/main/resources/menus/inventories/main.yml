@@ -1,5 +1,5 @@
 size: 54
-name: "&8Player Warps &7%page%/%maxPage%"
+name: "&8Warps &7%page%/%maxPage%"
 patterns:
   - "pwe_decoration"
   - "pwe_pagination"
@@ -15,52 +15,52 @@ items:
       material: ENDER_PEARL
       name: "&b%warp%"
       lore:
-        - "&7Owner: &f%owner%"
-        - "&7Visits: &f%visits%"
-        - "&7State: &f%locked% &8/ &f%whitelist%"
+        - "&7Dueño: &f%owner%"
+        - "&7Visitas: &f%visits%"
+        - "&7Estado: &f%locked% &8/ &f%whitelist%"
         - ""
         - "&7%description%"
         - ""
-        - "&eLeft-click &7to teleport."
-        - "&eRight-click &7to manage if owned."
+        - "&eClic izquierdo &7para teletransportarte."
+        - "&eClic derecho &7para administrar si te pertenece."
   search:
     type: PWE_SEARCH
     isPermanent: true
     slot: 46
     item:
       material: SIGN
-      name: "&bSearch"
+      name: "&bBuscar"
       lore:
-        - "&7Current: &f%query%"
+        - "&7Actual: &f%query%"
         - ""
-        - "&eLeft-click &7to search."
-        - "&eRight-click &7to clear."
+        - "&eClic izquierdo &7para buscar."
+        - "&eClic derecho &7para borrar."
   scope:
     type: PWE_SCOPE
     isPermanent: true
     slot: 47
     item:
       material: COMPASS
-      name: "&bScope: &f%scope%"
+      name: "&bVer: &f%scope%"
       lore:
-        - "&7Toggle between accessible"
-        - "&7warps and your own warps."
+        - "&7Alterná entre warps disponibles"
+        - "&7y tus propios warps."
   sort:
     type: PWE_FILTER_SORT
     isPermanent: true
     slot: 49
     item:
       material: HOPPER
-      name: "&bSort: &f%sort%"
+      name: "&bOrdenar: &f%sort%"
       lore:
-        - "&eLeft-click &7next sort."
-        - "&eRight-click &7previous sort."
+        - "&eClic izquierdo &7para el siguiente orden."
+        - "&eClic derecho &7para el orden anterior."
   refresh:
     type: PWE_REFRESH
     isPermanent: true
     slot: 51
     item:
       material: WATCH
-      name: "&bRefresh"
+      name: "&bActualizar"
       lore:
-        - "&7Reload this view from cache."
+        - "&7Actualizá esta vista desde la caché."
