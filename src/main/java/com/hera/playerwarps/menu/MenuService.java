@@ -16,6 +16,7 @@ import com.hera.playerwarps.menu.loader.WhitelistListButtonLoader;
 import com.hera.playerwarps.util.Texts;
 import com.hera.playerwarps.warp.VisitBuffer;
 import com.hera.playerwarps.warp.Warp;
+import com.hera.playerwarps.warp.WarpAccessResult;
 import com.hera.playerwarps.warp.WarpAccessService;
 import com.hera.playerwarps.warp.WarpCache;
 import com.hera.playerwarps.warp.WarpLimitService;
@@ -85,7 +86,7 @@ public final class MenuService {
         this.visitBuffer = visitBuffer;
         this.warpService = warpService;
         this.sessionStore = new MenuSessionStore(configManager, scheduler);
-        this.browseService = new WarpBrowseService(warpCache, warpAccessService, visitBuffer);
+        this.browseService = new WarpBrowseService(warpCache, visitBuffer);
     }
 
     public void enable() {
@@ -229,6 +230,11 @@ public final class MenuService {
             refresh(player);
             return;
         }
+        WarpAccessResult access = this.warpAccessService.canTeleport(player, warp);
+        if (!access.isAllowed()) {
+            this.configManager.messages().send(player, access.messageKey());
+            return;
+        }
         player.closeInventory();
         this.warpService.teleport(player, warp.name());
     }
@@ -363,18 +369,19 @@ public final class MenuService {
 
         Warp selected = selectedWarp(player);
         if (selected != null) {
-            registerWarp(placeholders, selected);
+            registerWarp(player, placeholders, selected);
         }
         return placeholders;
     }
 
     private Placeholders warpPlaceholders(Player player, Warp warp) {
         Placeholders placeholders = sessionPlaceholders(player);
-        registerWarp(placeholders, warp);
+        registerWarp(player, placeholders, warp);
         return placeholders;
     }
 
-    private void registerWarp(Placeholders placeholders, Warp warp) {
+    private void registerWarp(Player player, Placeholders placeholders, Warp warp) {
+        WarpAccessResult access = this.warpAccessService.canTeleport(player, warp);
         placeholders.register("warp", warp.name());
         placeholders.register("owner", warp.ownerName());
         placeholders.register("description", warp.description() == null || warp.description().trim().isEmpty() ? "Sin descripción" : warp.description());
@@ -382,6 +389,24 @@ public final class MenuService {
         placeholders.register("locked", warp.locked() ? "bloqueado" : "desbloqueado");
         placeholders.register("whitelist", warp.whitelistEnabled() ? "activada" : "desactivada");
         placeholders.register("world", warp.location().world());
+        placeholders.register("access_status", accessStatus(access));
+        placeholders.register("access_action", accessAction(access));
+    }
+
+    private static String accessStatus(WarpAccessResult access) {
+        if (access.isAllowed()) {
+            return "&adisponible";
+        }
+        if ("messages.teleport-locked".equals(access.messageKey())) {
+            return "&cbloqueado";
+        }
+        return "&cno pertenecés a la whitelist";
+    }
+
+    private static String accessAction(WarpAccessResult access) {
+        return access.isAllowed()
+                ? "&eClic izquierdo &7para teletransportarte."
+                : "&cNo podés teletransportarte a este warp.";
     }
 
     private Warp selectedWarp(Player player) {

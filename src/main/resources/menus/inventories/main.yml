@@ -18,10 +18,11 @@ items:
         - "&7Dueño: &f%owner%"
         - "&7Visitas: &f%visits%"
         - "&7Estado: &f%locked% &8/ &f%whitelist%"
+        - "&7Acceso: %access_status%"
         - ""
         - "&7%description%"
         - ""
-        - "&eClic izquierdo &7para teletransportarte."
+        - "%access_action%"
         - "&eClic derecho &7para administrar si te pertenece."
   search:
     type: PWE_SEARCH
@@ -43,7 +44,7 @@ items:
       material: COMPASS
       name: "&bVer: &f%scope%"
       lore:
-        - "&7Alterná entre warps disponibles"
+        - "&7Alterná entre todos los warps"
         - "&7y tus propios warps."
   sort:
     type: PWE_FILTER_SORT

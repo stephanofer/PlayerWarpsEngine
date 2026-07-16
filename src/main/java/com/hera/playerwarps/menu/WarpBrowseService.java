@@ -2,7 +2,6 @@ package com.hera.playerwarps.menu;
 
 import com.hera.playerwarps.warp.VisitBuffer;
 import com.hera.playerwarps.warp.Warp;
-import com.hera.playerwarps.warp.WarpAccessService;
 import com.hera.playerwarps.warp.WarpCache;
 import org.bukkit.entity.Player;
 
@@ -16,13 +15,11 @@ import java.util.Map;
 public final class WarpBrowseService {
 
     private final WarpCache warpCache;
-    private final WarpAccessService warpAccessService;
     private final VisitBuffer visitBuffer;
     private final Map<WarpSort, CachedSort> sortedCache = new HashMap<WarpSort, CachedSort>();
 
-    public WarpBrowseService(WarpCache warpCache, WarpAccessService warpAccessService, VisitBuffer visitBuffer) {
+    public WarpBrowseService(WarpCache warpCache, VisitBuffer visitBuffer) {
         this.warpCache = warpCache;
-        this.warpAccessService = warpAccessService;
         this.visitBuffer = visitBuffer;
     }
 
@@ -36,8 +33,6 @@ public final class WarpBrowseService {
                 if (!warp.ownerUuid().equals(player.getUniqueId())) {
                     continue;
                 }
-            } else if (!this.warpAccessService.isVisible(player, warp)) {
-                continue;
             }
 
             if (!query.isEmpty() && !matches(warp, query)) {
