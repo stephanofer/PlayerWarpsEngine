@@ -43,6 +43,10 @@ public final class WarpLimitService {
         return calculated;
     }
 
+    public Integer cachedValue(UUID playerUuid) {
+        return this.playerLimitCache.getIfPresent(playerUuid);
+    }
+
     public int calculateOffline(UUID playerUuid) {
         LimitSettings settings = this.configManager.settings().limitSettings();
         return settings.defaultLimit() + this.warpCache.bonusOf(playerUuid);

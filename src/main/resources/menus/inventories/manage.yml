@@ -1,0 +1,78 @@
+size: 54
+name: "&8Manage &b%warp%"
+patterns:
+  - "pwe_decoration"
+items:
+  info:
+    type: PWE_MANAGE_WARP
+    action: none
+    isPermanent: true
+    slot: 13
+    item:
+      material: PAPER
+      name: "&b%warp%"
+      lore:
+        - "&7Owner: &f%owner%"
+        - "&7World: &f%world%"
+        - "&7Visits: &f%visits%"
+        - "&7Lock: &f%locked%"
+        - "&7Whitelist: &f%whitelist%"
+        - ""
+        - "&7%description%"
+  teleport:
+    type: PWE_MANAGE_WARP
+    action: teleport
+    slot: 20
+    item:
+      material: ENDER_PEARL
+      name: "&aTeleport"
+  lock:
+    type: PWE_MANAGE_WARP
+    action: lock-toggle
+    slot: 21
+    item:
+      material: IRON_DOOR
+      name: "&eToggle lock"
+      lore:
+        - "&7Current: &f%locked%"
+  whitelist-toggle:
+    type: PWE_MANAGE_WARP
+    action: whitelist-toggle
+    slot: 22
+    item:
+      material: BOOK
+      name: "&eToggle whitelist"
+      lore:
+        - "&7Current: &f%whitelist%"
+  whitelist-open:
+    type: PWE_MANAGE_WARP
+    action: whitelist-open
+    slot: 23
+    item:
+      material: NAME_TAG
+      name: "&bOpen whitelist"
+  reset:
+    type: PWE_MANAGE_WARP
+    action: reset
+    slot: 24
+    item:
+      material: EYE_OF_ENDER
+      name: "&6Reset location"
+      lore:
+        - "&7Requires a second click."
+  remove:
+    type: PWE_MANAGE_WARP
+    action: remove
+    slot: 31
+    item:
+      material: TNT
+      name: "&cRemove warp"
+      lore:
+        - "&7Requires a second click."
+  back:
+    type: PWE_MANAGE_WARP
+    action: back
+    slot: 49
+    item:
+      material: ARROW
+      name: "&bBack"

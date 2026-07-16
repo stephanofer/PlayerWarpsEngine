@@ -4,6 +4,7 @@ import com.hera.playerwarps.PlayerWarpsPlugin;
 import com.hera.playerwarps.bootstrap.Services;
 import com.hera.playerwarps.config.ConfigManager;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +27,20 @@ public final class PlayerWarpCommand {
         this.services = services;
 
         registerSubCommand(new HelpSubCommand());
+        registerSubCommand(new OpenSubCommand());
+        registerSubCommand(new SetSubCommand());
+        registerSubCommand(new RemoveSubCommand());
+        registerSubCommand(new DescSubCommand());
+        registerSubCommand(new ListSubCommand());
+        registerSubCommand(new AmountSubCommand());
+        registerSubCommand(new LockSubCommand());
+        registerSubCommand(new ResetSubCommand());
+        registerSubCommand(new RenameSubCommand());
+        registerSubCommand(new SetOwnerSubCommand());
+        registerSubCommand(new WhitelistSubCommand());
+        registerSubCommand(new RemoveAllSubCommand());
+        registerSubCommand(new AddWarpsSubCommand());
+        registerSubCommand(new PurgeSubCommand());
         registerSubCommand(new ReloadSubCommand(configManager, commandRegistrar, this, services));
     }
 
@@ -33,15 +48,13 @@ public final class PlayerWarpCommand {
         CommandContext context = new CommandContext(this.plugin, this.configManager, this.services, sender, label, args);
 
         if (args.length == 0) {
-            executeSubCommand(this.subCommands.get("help"), context);
+            executeOpenMenu(context);
             return true;
         }
 
         SubCommand subCommand = this.subCommands.get(args[0].toLowerCase(Locale.ENGLISH));
         if (subCommand == null) {
-            Map<String, String> placeholders = new HashMap<String, String>();
-            placeholders.put("command", label);
-            this.configManager.messages().send(sender, "messages.unknown-command", placeholders);
+            executeWarpTeleport(context);
             return true;
         }
 
@@ -67,6 +80,12 @@ public final class PlayerWarpCommand {
                 }
             }
 
+            for (com.hera.playerwarps.warp.Warp warp : this.services.warpCache().allSnapshot()) {
+                if (warp.nameNormalized().startsWith(prefix)) {
+                    suggestions.add(warp.name());
+                }
+            }
+
             return suggestions;
         }
 
@@ -85,6 +104,30 @@ public final class PlayerWarpCommand {
         }
 
         subCommand.execute(context);
+    }
+
+    private void executeWarpTeleport(CommandContext context) {
+        if (!hasPermission(context.sender(), "pwarp.warp")) {
+            context.messages().send(context.sender(), "messages.no-permission");
+            return;
+        }
+        if (!(context.sender() instanceof Player)) {
+            context.messages().send(context.sender(), "messages.only-player");
+            return;
+        }
+        this.services.warpService().teleport((Player) context.sender(), context.args()[0]);
+    }
+
+    private void executeOpenMenu(CommandContext context) {
+        if (!hasPermission(context.sender(), "pwarp.open")) {
+            context.messages().send(context.sender(), "messages.no-permission");
+            return;
+        }
+        if (!(context.sender() instanceof Player)) {
+            context.messages().send(context.sender(), "messages.only-player");
+            return;
+        }
+        this.services.menuService().openMain((Player) context.sender());
     }
 
     private void registerSubCommand(SubCommand subCommand) {

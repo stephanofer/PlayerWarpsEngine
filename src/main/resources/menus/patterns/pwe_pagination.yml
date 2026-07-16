@@ -1,0 +1,21 @@
+name: "pwe_pagination"
+size: 54
+items:
+  previous:
+    type: PREVIOUS
+    isPermanent: true
+    slot: 48
+    item:
+      material: ARROW
+      name: "&bPrevious page"
+      lore:
+        - "&7Page &f%page%&7/&f%maxPage%"
+  next:
+    type: NEXT
+    isPermanent: true
+    slot: 50
+    item:
+      material: ARROW
+      name: "&bNext page"
+      lore:
+        - "&7Page &f%page%&7/&f%maxPage%"

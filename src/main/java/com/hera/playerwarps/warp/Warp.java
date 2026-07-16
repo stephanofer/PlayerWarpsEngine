@@ -111,4 +111,40 @@ public final class Warp {
     public Long lastVisitedAt() {
         return this.lastVisitedAt;
     }
+
+    public Warp withDescription(String description, long updatedAt) {
+        return new Warp(this.id, this.serverId, this.name, this.nameNormalized, this.ownerUuid, this.ownerName, this.location,
+                description, this.iconMaterial, this.iconData, this.locked, this.whitelistEnabled, this.visits, this.safeStatus,
+                this.createdAt, updatedAt, this.lastVisitedAt);
+    }
+
+    public Warp withLocked(boolean locked, long updatedAt) {
+        return new Warp(this.id, this.serverId, this.name, this.nameNormalized, this.ownerUuid, this.ownerName, this.location,
+                this.description, this.iconMaterial, this.iconData, locked, this.whitelistEnabled, this.visits, this.safeStatus,
+                this.createdAt, updatedAt, this.lastVisitedAt);
+    }
+
+    public Warp withWhitelistEnabled(boolean whitelistEnabled, long updatedAt) {
+        return new Warp(this.id, this.serverId, this.name, this.nameNormalized, this.ownerUuid, this.ownerName, this.location,
+                this.description, this.iconMaterial, this.iconData, this.locked, whitelistEnabled, this.visits, this.safeStatus,
+                this.createdAt, updatedAt, this.lastVisitedAt);
+    }
+
+    public Warp withLocation(WarpLocation location, SafeStatus safeStatus, long updatedAt) {
+        return new Warp(this.id, this.serverId, this.name, this.nameNormalized, this.ownerUuid, this.ownerName, location,
+                this.description, this.iconMaterial, this.iconData, this.locked, this.whitelistEnabled, this.visits, safeStatus,
+                this.createdAt, updatedAt, this.lastVisitedAt);
+    }
+
+    public Warp withName(WarpName name, long updatedAt) {
+        return new Warp(this.id, this.serverId, name.value(), name.normalized(), this.ownerUuid, this.ownerName, this.location,
+                this.description, this.iconMaterial, this.iconData, this.locked, this.whitelistEnabled, this.visits, this.safeStatus,
+                this.createdAt, updatedAt, this.lastVisitedAt);
+    }
+
+    public Warp withOwner(UUID ownerUuid, String ownerName, long updatedAt) {
+        return new Warp(this.id, this.serverId, this.name, this.nameNormalized, ownerUuid, ownerName, this.location,
+                this.description, this.iconMaterial, this.iconData, this.locked, this.whitelistEnabled, this.visits, this.safeStatus,
+                this.createdAt, updatedAt, this.lastVisitedAt);
+    }
 }

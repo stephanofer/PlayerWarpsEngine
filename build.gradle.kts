@@ -35,6 +35,10 @@ dependencies {
     implementation("com.github.ben-manes.caffeine:caffeine:2.9.3")
     implementation("com.zaxxer:HikariCP:4.0.3")
     implementation("com.mysql:mysql-connector-j:8.0.33")
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+    testCompileOnly(files("libs/server.jar"))
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.2")
 }
 
 tasks.withType<JavaCompile>().configureEach {
@@ -63,4 +67,8 @@ tasks.named<ShadowJar>("shadowJar") {
 
 tasks.assemble {
     dependsOn(tasks.shadowJar)
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

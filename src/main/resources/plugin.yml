@@ -9,5 +9,45 @@ softdepend:
 permissions:
   pwarp.help:
     default: true
+  pwarp.open:
+    default: true
+  pwarp.warp:
+    default: true
+  pwarp.set:
+    default: true
+  pwarp.remove:
+    default: true
+  pwarp.list:
+    default: true
+  pwarp.amount:
+    default: true
+  pwarp.desc:
+    default: true
+  pwarp.lock:
+    default: true
+  pwarp.reset:
+    default: true
+  pwarp.rename:
+    default: true
+  pwarp.setowner:
+    default: true
+  pwarp.whitelist:
+    default: true
+  pwarp.admin.manage:
+    default: op
+  pwarp.admin.remove:
+    default: op
+  pwarp.admin.removeall:
+    default: op
+  pwarp.admin.setowner:
+    default: op
+  pwarp.admin.addwarps:
+    default: op
+  pwarp.admin.purge:
+    default: op
+  pwarp.admin.limit.bypass:
+    default: op
+  pwarp.admin.access.bypass:
+    default: op
   pwarp.admin.reload:
     default: op

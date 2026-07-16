@@ -1,0 +1,39 @@
+size: 54
+name: "&8Whitelist &b%warp% &7%page%/%maxPage%"
+patterns:
+  - "pwe_decoration"
+  - "pwe_pagination"
+items:
+  members:
+    type: PWE_WHITELIST_LIST
+    slots:
+      - "10-16"
+      - "19-25"
+      - "28-34"
+      - "37-43"
+    item:
+      material: SKULL_ITEM
+      data: 3
+      name: "&b%member%"
+      lore:
+        - "&7UUID: &f%member_uuid%"
+        - ""
+        - "&eLeft-click &7to remove."
+  toggle:
+    type: PWE_MANAGE_WARP
+    action: whitelist-toggle
+    isPermanent: true
+    slot: 49
+    item:
+      material: BOOK
+      name: "&eToggle whitelist"
+      lore:
+        - "&7Current: &f%whitelist%"
+  back:
+    type: PWE_MANAGE_WARP
+    action: manage-back
+    isPermanent: true
+    slot: 45
+    item:
+      material: ARROW
+      name: "&bBack"

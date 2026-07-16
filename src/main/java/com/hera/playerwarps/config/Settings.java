@@ -16,13 +16,20 @@ public final class Settings {
     private final List<String> commandAliases;
     private final WarpSettings warpSettings;
     private final LimitSettings limitSettings;
+    private final TeleportSettings teleportSettings;
+    private final MenuSettings menuSettings;
+    private final PlaceholderSettings placeholderSettings;
 
-    private Settings(String serverId, String primaryCommand, List<String> commandAliases, WarpSettings warpSettings, LimitSettings limitSettings) {
+    private Settings(String serverId, String primaryCommand, List<String> commandAliases, WarpSettings warpSettings, LimitSettings limitSettings,
+                     TeleportSettings teleportSettings, MenuSettings menuSettings, PlaceholderSettings placeholderSettings) {
         this.serverId = serverId;
         this.primaryCommand = primaryCommand;
         this.commandAliases = Collections.unmodifiableList(new ArrayList<String>(commandAliases));
         this.warpSettings = warpSettings;
         this.limitSettings = limitSettings;
+        this.teleportSettings = teleportSettings;
+        this.menuSettings = menuSettings;
+        this.placeholderSettings = placeholderSettings;
     }
 
     public static Settings from(YamlDocument config) {
@@ -49,7 +56,8 @@ public final class Settings {
             aliases.add(normalized);
         }
 
-        return new Settings(serverId, primaryCommand, new ArrayList<String>(aliases), WarpSettings.from(config), LimitSettings.from(config));
+        return new Settings(serverId, primaryCommand, new ArrayList<String>(aliases), WarpSettings.from(config), LimitSettings.from(config),
+                TeleportSettings.from(config), MenuSettings.from(config), PlaceholderSettings.from(config));
     }
 
     public String serverId() {
@@ -70,5 +78,17 @@ public final class Settings {
 
     public LimitSettings limitSettings() {
         return this.limitSettings;
+    }
+
+    public TeleportSettings teleportSettings() {
+        return this.teleportSettings;
+    }
+
+    public MenuSettings menuSettings() {
+        return this.menuSettings;
+    }
+
+    public PlaceholderSettings placeholderSettings() {
+        return this.placeholderSettings;
     }
 }

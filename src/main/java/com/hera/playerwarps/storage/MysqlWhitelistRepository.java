@@ -52,4 +52,60 @@ public final class MysqlWhitelistRepository implements WhitelistRepository {
 
         return entries;
     }
+
+    @Override
+    public List<WhitelistEntry> findByWarpId(long warpId) throws SQLException {
+        String sql = "SELECT warp_id, player_uuid, player_name, created_at FROM player_warp_whitelist WHERE warp_id = ?";
+        List<WhitelistEntry> entries = new ArrayList<WhitelistEntry>();
+
+        try (Connection connection = this.database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, warpId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    entries.add(new WhitelistEntry(
+                            resultSet.getLong("warp_id"),
+                            UUID.fromString(resultSet.getString("player_uuid")),
+                            resultSet.getString("player_name"),
+                            resultSet.getLong("created_at")
+                    ));
+                }
+            }
+        }
+
+        return entries;
+    }
+
+    @Override
+    public boolean add(long warpId, UUID playerUuid, String playerName, long createdAt) throws SQLException {
+        String sql = "INSERT IGNORE INTO player_warp_whitelist (warp_id, player_uuid, player_name, created_at) VALUES (?, ?, ?, ?)";
+        try (Connection connection = this.database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, warpId);
+            statement.setString(2, playerUuid.toString());
+            statement.setString(3, playerName);
+            statement.setLong(4, createdAt);
+            return statement.executeUpdate() > 0;
+        }
+    }
+
+    @Override
+    public boolean remove(long warpId, UUID playerUuid) throws SQLException {
+        String sql = "DELETE FROM player_warp_whitelist WHERE warp_id = ? AND player_uuid = ?";
+        try (Connection connection = this.database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, warpId);
+            statement.setString(2, playerUuid.toString());
+            return statement.executeUpdate() > 0;
+        }
+    }
+
+    @Override
+    public int deleteByWarpId(long warpId) throws SQLException {
+        try (Connection connection = this.database.getConnection();
+             PreparedStatement statement = connection.prepareStatement("DELETE FROM player_warp_whitelist WHERE warp_id = ?")) {
+            statement.setLong(1, warpId);
+            return statement.executeUpdate();
+        }
+    }
 }

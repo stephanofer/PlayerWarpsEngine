@@ -14,13 +14,22 @@ warps:
     - "help"
     - "set"
     - "remove"
+    - "del"
     - "reload"
     - "list"
     - "open"
+    - "amount"
+    - "desc"
+    - "description"
     - "lock"
+    - "unlock"
     - "rename"
     - "reset"
+    - "setowner"
     - "whitelist"
+    - "removeall"
+    - "addwarps"
+    - "purge"
   description-max-length: 160
   allowed-worlds:
     mode: "BLACKLIST"
@@ -56,3 +65,17 @@ purge:
   inactive:
     enabled: false
     days: 90
+
+menus:
+  default-sort: "newest"
+  search-timeout-seconds: 30
+  search-max-length: 64
+  confirmation-timeout-seconds: 5
+  fallback-icon:
+    material: ENDER_PEARL
+    data: 0
+
+placeholders:
+  fallback: "N/A"
+  locked: "yes"
+  unlocked: "no"

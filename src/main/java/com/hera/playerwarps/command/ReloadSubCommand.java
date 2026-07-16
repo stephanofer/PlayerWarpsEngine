@@ -2,7 +2,6 @@ package com.hera.playerwarps.command;
 
 import com.hera.playerwarps.bootstrap.Services;
 import com.hera.playerwarps.config.ConfigManager;
-import com.hera.playerwarps.storage.DatabaseSettings;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,14 +43,12 @@ public final class ReloadSubCommand implements SubCommand {
 
         try {
             ConfigManager.LoadedConfig loadedConfig = this.configManager.load();
-            DatabaseSettings previousDatabaseSettings = this.configManager.databaseSettings();
+            this.services.menuService().validateReload(loadedConfig);
             this.commandRegistrar.reload(loadedConfig.settings(), this.rootCommand);
             this.configManager.apply(loadedConfig);
             this.services.warpLimitService().invalidateAll();
+            this.services.menuService().reloadMenus();
             this.configManager.messages().send(context.sender(), "messages.reload.success");
-            if (!previousDatabaseSettings.equals(loadedConfig.databaseSettings())) {
-                this.configManager.messages().send(context.sender(), "messages.reload.storage-restart-required");
-            }
         } catch (CommandRegistrationException exception) {
             placeholders.put("error", exception.getMessage());
             context.messages().send(context.sender(), "messages.reload.invalid-command", placeholders);

@@ -4,6 +4,7 @@ import com.hera.playerwarps.warp.SafeStatus;
 import com.hera.playerwarps.warp.Warp;
 import com.hera.playerwarps.warp.WarpCreateRequest;
 import com.hera.playerwarps.warp.WarpLocation;
+import com.hera.playerwarps.warp.WarpName;
 import com.hera.playerwarps.warp.WarpRepository;
 
 import java.sql.Connection;
@@ -12,7 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -116,6 +119,174 @@ public final class MysqlWarpRepository implements WarpRepository {
             } finally {
                 connection.setAutoCommit(true);
             }
+        }
+    }
+
+    @Override
+    public int deleteByOwner(String serverId, UUID ownerUuid) throws SQLException {
+        String selectSql = "SELECT id FROM player_warps WHERE server_id = ? AND owner_uuid = ?";
+        List<Long> ids = new ArrayList<Long>();
+        try (Connection connection = this.database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectSql)) {
+            statement.setString(1, serverId);
+            statement.setString(2, ownerUuid.toString());
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    ids.add(resultSet.getLong("id"));
+                }
+            }
+        }
+        return deleteByIds(serverId, ids);
+    }
+
+    @Override
+    public int deleteByIds(String serverId, Collection<Long> ids) throws SQLException {
+        if (ids == null || ids.isEmpty()) {
+            return 0;
+        }
+
+        try (Connection connection = this.database.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement deleteWhitelist = connection.prepareStatement("DELETE FROM player_warp_whitelist WHERE warp_id = ?");
+                 PreparedStatement deleteWarp = connection.prepareStatement("DELETE FROM player_warps WHERE server_id = ? AND id = ?")) {
+                int removed = 0;
+                for (Long id : ids) {
+                    if (id == null) {
+                        continue;
+                    }
+                    deleteWhitelist.setLong(1, id.longValue());
+                    deleteWhitelist.addBatch();
+
+                    deleteWarp.setString(1, serverId);
+                    deleteWarp.setLong(2, id.longValue());
+                    deleteWarp.addBatch();
+                }
+                deleteWhitelist.executeBatch();
+                int[] results = deleteWarp.executeBatch();
+                for (int result : results) {
+                    if (result > 0 || result == Statement.SUCCESS_NO_INFO) {
+                        removed++;
+                    }
+                }
+                connection.commit();
+                return removed;
+            } catch (SQLException exception) {
+                connection.rollback();
+                throw exception;
+            } finally {
+                connection.setAutoCommit(true);
+            }
+        }
+    }
+
+    @Override
+    public boolean updateDescription(String serverId, long id, String description, long updatedAt) throws SQLException {
+        String sql = "UPDATE player_warps SET description = ?, updated_at = ? WHERE server_id = ? AND id = ?";
+        try (Connection connection = this.database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, description);
+            statement.setLong(2, updatedAt);
+            statement.setString(3, serverId);
+            statement.setLong(4, id);
+            return statement.executeUpdate() > 0;
+        }
+    }
+
+    @Override
+    public boolean updateLocked(String serverId, long id, boolean locked, long updatedAt) throws SQLException {
+        String sql = "UPDATE player_warps SET locked = ?, updated_at = ? WHERE server_id = ? AND id = ?";
+        try (Connection connection = this.database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setBoolean(1, locked);
+            statement.setLong(2, updatedAt);
+            statement.setString(3, serverId);
+            statement.setLong(4, id);
+            return statement.executeUpdate() > 0;
+        }
+    }
+
+    @Override
+    public boolean updateWhitelistEnabled(String serverId, long id, boolean enabled, long updatedAt) throws SQLException {
+        String sql = "UPDATE player_warps SET whitelist_enabled = ?, updated_at = ? WHERE server_id = ? AND id = ?";
+        try (Connection connection = this.database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setBoolean(1, enabled);
+            statement.setLong(2, updatedAt);
+            statement.setString(3, serverId);
+            statement.setLong(4, id);
+            return statement.executeUpdate() > 0;
+        }
+    }
+
+    @Override
+    public boolean updateLocation(String serverId, long id, WarpLocation location, SafeStatus safeStatus, long updatedAt) throws SQLException {
+        String sql = "UPDATE player_warps SET world = ?, x = ?, y = ?, z = ?, yaw = ?, pitch = ?, safe_status = ?, updated_at = ? "
+                + "WHERE server_id = ? AND id = ?";
+        try (Connection connection = this.database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, location.world());
+            statement.setDouble(2, location.x());
+            statement.setDouble(3, location.y());
+            statement.setDouble(4, location.z());
+            statement.setFloat(5, location.yaw());
+            statement.setFloat(6, location.pitch());
+            statement.setString(7, safeStatus.name());
+            statement.setLong(8, updatedAt);
+            statement.setString(9, serverId);
+            statement.setLong(10, id);
+            return statement.executeUpdate() > 0;
+        }
+    }
+
+    @Override
+    public boolean updateName(String serverId, long id, WarpName name, long updatedAt) throws SQLException {
+        String sql = "UPDATE player_warps SET name = ?, name_normalized = ?, updated_at = ? WHERE server_id = ? AND id = ?";
+        try (Connection connection = this.database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, name.value());
+            statement.setString(2, name.normalized());
+            statement.setLong(3, updatedAt);
+            statement.setString(4, serverId);
+            statement.setLong(5, id);
+            return statement.executeUpdate() > 0;
+        }
+    }
+
+    @Override
+    public boolean updateOwner(String serverId, long id, UUID ownerUuid, String ownerName, long updatedAt) throws SQLException {
+        String sql = "UPDATE player_warps SET owner_uuid = ?, owner_name = ?, updated_at = ? WHERE server_id = ? AND id = ?";
+        try (Connection connection = this.database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, ownerUuid.toString());
+            statement.setString(2, ownerName);
+            statement.setLong(3, updatedAt);
+            statement.setString(4, serverId);
+            statement.setLong(5, id);
+            return statement.executeUpdate() > 0;
+        }
+    }
+
+    @Override
+    public void incrementVisits(String serverId, Map<Long, Long> visitDeltas, long visitedAt) throws SQLException {
+        if (visitDeltas.isEmpty()) {
+            return;
+        }
+
+        String sql = "UPDATE player_warps SET visits = visits + ?, last_visited_at = ? WHERE server_id = ? AND id = ?";
+        try (Connection connection = this.database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            for (Map.Entry<Long, Long> entry : visitDeltas.entrySet()) {
+                long delta = entry.getValue() == null ? 0L : entry.getValue();
+                if (delta <= 0L) {
+                    continue;
+                }
+                statement.setLong(1, delta);
+                statement.setLong(2, visitedAt);
+                statement.setString(3, serverId);
+                statement.setLong(4, entry.getKey());
+                statement.addBatch();
+            }
+            statement.executeBatch();
         }
     }
 

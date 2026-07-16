@@ -1,0 +1,66 @@
+size: 54
+name: "&8Player Warps &7%page%/%maxPage%"
+patterns:
+  - "pwe_decoration"
+  - "pwe_pagination"
+items:
+  warps:
+    type: PWE_WARP_LIST
+    slots:
+      - "10-16"
+      - "19-25"
+      - "28-34"
+      - "37-43"
+    item:
+      material: ENDER_PEARL
+      name: "&b%warp%"
+      lore:
+        - "&7Owner: &f%owner%"
+        - "&7Visits: &f%visits%"
+        - "&7State: &f%locked% &8/ &f%whitelist%"
+        - ""
+        - "&7%description%"
+        - ""
+        - "&eLeft-click &7to teleport."
+        - "&eRight-click &7to manage if owned."
+  search:
+    type: PWE_SEARCH
+    isPermanent: true
+    slot: 46
+    item:
+      material: SIGN
+      name: "&bSearch"
+      lore:
+        - "&7Current: &f%query%"
+        - ""
+        - "&eLeft-click &7to search."
+        - "&eRight-click &7to clear."
+  scope:
+    type: PWE_SCOPE
+    isPermanent: true
+    slot: 47
+    item:
+      material: COMPASS
+      name: "&bScope: &f%scope%"
+      lore:
+        - "&7Toggle between accessible"
+        - "&7warps and your own warps."
+  sort:
+    type: PWE_FILTER_SORT
+    isPermanent: true
+    slot: 49
+    item:
+      material: HOPPER
+      name: "&bSort: &f%sort%"
+      lore:
+        - "&eLeft-click &7next sort."
+        - "&eRight-click &7previous sort."
+  refresh:
+    type: PWE_REFRESH
+    isPermanent: true
+    slot: 51
+    item:
+      material: WATCH
+      name: "&bRefresh"
+      lore:
+        - "&7Reload this view from cache."
