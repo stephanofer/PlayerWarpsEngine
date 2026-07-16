@@ -344,7 +344,6 @@ CREATE TABLE player_warps (
   z DOUBLE NOT NULL,
   yaw FLOAT NOT NULL,
   pitch FLOAT NOT NULL,
-  description VARCHAR(160) NULL,
   icon_material VARCHAR(64) NULL,
   icon_data SMALLINT NOT NULL DEFAULT 0,
   locked BOOLEAN NOT NULL DEFAULT FALSE,
@@ -615,8 +614,6 @@ En reload:
 | `/pwarp <warp>` | `pwarp.warp` | Teletransporta al warp |
 | `/pwarp set <name>` | `pwarp.set` | Crea warp en la ubicacion actual |
 | `/pwarp remove <warp>` | `pwarp.remove` | Elimina warp propio |
-| `/pwarp desc set <warp> <desc>` | `pwarp.desc` | Define descripcion |
-| `/pwarp desc remove <warp>` | `pwarp.desc` | Quita descripcion |
 | `/pwarp list [page] [player]` | `pwarp.list` | Lista warps por texto |
 | `/pwarp open [menu] [option]` | `pwarp.open` | Abre menu especifico |
 | `/pwarp amount [player]` | `pwarp.amount` | Ver cantidad y limite |
@@ -728,7 +725,6 @@ V1 soporta busqueda simple por:
 
 - Nombre del warp.
 - Owner.
-- Descripcion.
 
 Flujo:
 
@@ -806,7 +802,6 @@ warps:
     - "rename"
     - "reset"
     - "whitelist"
-  description-max-length: 160
   allowed-worlds:
     mode: "BLACKLIST"
     worlds:
@@ -1028,8 +1023,6 @@ Si cambia `storage.yml`, el reload debe reconectar de forma controlada o pedir r
 - Rename hacia nombre existente.
 - Reset hacia mundo bloqueado.
 - Reset hacia ubicacion insegura.
-- Descripcion demasiado larga.
-- Descripcion con placeholders o color codes abusivos.
 
 ### Ownership y limites
 

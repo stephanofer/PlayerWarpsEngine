@@ -52,7 +52,7 @@ final class WarpSortTest {
 
     private static Warp warp(long id, String name, String owner, long createdAt, long visits) {
         return new Warp(id, "server", name, name, UUID.nameUUIDFromBytes(owner.getBytes()), owner,
-                new WarpLocation("world", 0D, 64D, 0D, 0F, 0F), null, null, (short) 0,
+                new WarpLocation("world", 0D, 64D, 0D, 0F, 0F), null, (short) 0,
                 false, false, visits, SafeStatus.UNKNOWN, createdAt, createdAt, null);
     }
 }

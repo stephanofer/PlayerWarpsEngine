@@ -21,8 +21,6 @@ public interface WarpRepository {
 
     int deleteByIds(String serverId, Collection<Long> ids) throws SQLException;
 
-    boolean updateDescription(String serverId, long id, String description, long updatedAt) throws SQLException;
-
     boolean updateLocked(String serverId, long id, boolean locked, long updatedAt) throws SQLException;
 
     boolean updateWhitelistEnabled(String serverId, long id, boolean enabled, long updatedAt) throws SQLException;

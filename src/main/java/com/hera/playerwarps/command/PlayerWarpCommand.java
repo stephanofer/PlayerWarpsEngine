@@ -30,7 +30,6 @@ public final class PlayerWarpCommand {
         registerSubCommand(new OpenSubCommand());
         registerSubCommand(new SetSubCommand());
         registerSubCommand(new RemoveSubCommand());
-        registerSubCommand(new DescSubCommand());
         registerSubCommand(new ListSubCommand());
         registerSubCommand(new AmountSubCommand());
         registerSubCommand(new LockSubCommand());

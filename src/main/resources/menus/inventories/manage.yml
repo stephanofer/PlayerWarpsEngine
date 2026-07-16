@@ -17,8 +17,6 @@ items:
         - "&7Visitas: &f%visits%"
         - "&7Bloqueo: &f%locked%"
         - "&7Lista de acceso: &f%whitelist%"
-        - ""
-        - "&7%description%"
   teleport:
     type: PWE_MANAGE_WARP
     pwe-action: teleport

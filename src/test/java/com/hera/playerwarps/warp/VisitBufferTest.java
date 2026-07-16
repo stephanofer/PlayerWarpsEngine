@@ -12,7 +12,7 @@ final class VisitBufferTest {
     void effectiveVisitsIncludesSessionRecordedVisits() {
         VisitBuffer visitBuffer = new VisitBuffer(null, null, null, "server");
         Warp warp = new Warp(1L, "server", "spawn", "spawn", UUID.randomUUID(), "Owner",
-                new WarpLocation("world", 0D, 64D, 0D, 0F, 0F), null, null, (short) 0,
+                new WarpLocation("world", 0D, 64D, 0D, 0F, 0F), null, (short) 0,
                 false, false, 7L, SafeStatus.UNKNOWN, 1L, 1L, null);
 
         visitBuffer.record(warp.id());

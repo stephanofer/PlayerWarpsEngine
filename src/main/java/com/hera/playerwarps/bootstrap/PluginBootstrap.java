@@ -9,6 +9,7 @@ import com.hera.playerwarps.listener.PlayerDeathListener;
 import com.hera.playerwarps.listener.PlayerMoveListener;
 import com.hera.playerwarps.listener.PlayerQuitListener;
 import com.hera.playerwarps.listener.ChatSearchListener;
+import com.hera.playerwarps.listener.MenuCloseListener;
 import com.hera.playerwarps.menu.MenuService;
 import com.hera.playerwarps.placeholder.PlaceholderIntegration;
 import com.hera.playerwarps.storage.Database;
@@ -106,6 +107,7 @@ public final class PluginBootstrap {
         Bukkit.getPluginManager().registerEvents(new PlayerDeathListener(this.teleportService), this.plugin);
         Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(this.teleportService, menuService), this.plugin);
         Bukkit.getPluginManager().registerEvents(new ChatSearchListener(this.scheduler, menuService), this.plugin);
+        Bukkit.getPluginManager().registerEvents(new MenuCloseListener(menuService), this.plugin);
 
         this.enabled = true;
 

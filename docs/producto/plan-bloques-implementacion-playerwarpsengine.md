@@ -130,7 +130,6 @@ Completar todas las operaciones avanzadas de administracion, ownership y control
 
 ### Alcance
 
-- Implementar descripcion de warp: set/remove.
 - Implementar lock/unlock.
 - Implementar reset de ubicacion.
 - Implementar rename.

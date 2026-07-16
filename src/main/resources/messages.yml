@@ -1,4 +1,4 @@
-config-version: 2
+config-version: 3
 
 messages:
   prefix: "&8[&bWarps&8] "
@@ -14,7 +14,6 @@ messages:
       - "&b/%command% <warp> &8- &fTe teletransporta a un warp."
       - "&b/%command% list [page] [player] &8- &fMuestra los warps disponibles."
       - "&b/%command% amount [player] &8- &fMuestra la cantidad y el límite de warps."
-      - "&b/%command% desc set <warp> <description> &8- &fDefine la descripción de un warp."
       - "&b/%command% lock <warp> [true/false] &8- &fBloquea o desbloquea un warp."
       - "&b/%command% reset <warp> &8- &fMueve un warp a tu ubicación actual."
       - "&b/%command% rename <warp> <name> &8- &fCambia el nombre de un warp."
@@ -29,7 +28,6 @@ messages:
   usage:
     set: "%prefix%&cUso: &f/%command% set <name>"
     remove: "%prefix%&cUso: &f/%command% remove <warp>"
-    desc: "%prefix%&cUso: &f/%command% desc set <warp> <description> &7o &f/%command% desc remove <warp>"
     list: "%prefix%&cUso: &f/%command% list [page] [player]"
     amount: "%prefix%&cUso: &f/%command% amount [player]"
     lock: "%prefix%&cUso: &f/%command% lock <warp> [true/false]"
@@ -47,9 +45,6 @@ messages:
   invalid-warp-name: "%prefix%&cNombre de warp no válido. Usá solo letras, números, '_' o '-'."
   reserved-warp-name: "%prefix%&cEse nombre de warp está reservado."
   warp-limit-reached: "%prefix%&cAlcanzaste tu límite de warps: &f%limit%&c."
-  description-set: "%prefix%&aDescripción actualizada para &f%warp%&a."
-  description-removed: "%prefix%&aDescripción eliminada de &f%warp%&a."
-  description-too-long: "%prefix%&cLa descripción es demasiado larga. Máximo: &f%max% &ccaracteres."
   warp-locked: "%prefix%&aEl warp &f%warp% &aahora está bloqueado."
   warp-unlocked: "%prefix%&aEl warp &f%warp% &aahora está desbloqueado."
   warp-reset: "%prefix%&aLa ubicación de &f%warp% &afue actualizada."

@@ -215,48 +215,6 @@ public final class WarpService {
         });
     }
 
-    public void setDescription(final CommandSender sender, String rawName, final String description) {
-        final Warp warp = findWarpOrNotify(sender, rawName);
-        if (warp == null || !canManage(sender, warp, "pwarp.desc", ADMIN_MANAGE_PERMISSION)) {
-            return;
-        }
-        if (description.length() > this.configManager.settings().warpSettings().descriptionMaxLength()) {
-            Map<String, String> placeholders = new HashMap<String, String>();
-            placeholders.put("max", String.valueOf(this.configManager.settings().warpSettings().descriptionMaxLength()));
-            this.configManager.messages().send(sender, "messages.description-too-long", placeholders);
-            return;
-        }
-        updateWarp(sender, warp, "messages.description-set", new WarpUpdater() {
-            @Override
-            public boolean persist(Warp oldWarp, long now) throws SQLException {
-                return warpRepository.updateDescription(configManager.settings().serverId(), oldWarp.id(), description, now);
-            }
-
-            @Override
-            public Warp update(Warp oldWarp, long now) {
-                return oldWarp.withDescription(description, now);
-            }
-        });
-    }
-
-    public void removeDescription(final CommandSender sender, String rawName) {
-        final Warp warp = findWarpOrNotify(sender, rawName);
-        if (warp == null || !canManage(sender, warp, "pwarp.desc", ADMIN_MANAGE_PERMISSION)) {
-            return;
-        }
-        updateWarp(sender, warp, "messages.description-removed", new WarpUpdater() {
-            @Override
-            public boolean persist(Warp oldWarp, long now) throws SQLException {
-                return warpRepository.updateDescription(configManager.settings().serverId(), oldWarp.id(), null, now);
-            }
-
-            @Override
-            public Warp update(Warp oldWarp, long now) {
-                return oldWarp.withDescription(null, now);
-            }
-        });
-    }
-
     public void setLocked(final CommandSender sender, String rawName, final boolean locked) {
         final Warp warp = findWarpOrNotify(sender, rawName);
         if (warp == null || !canManage(sender, warp, "pwarp.lock", ADMIN_MANAGE_PERMISSION)) {

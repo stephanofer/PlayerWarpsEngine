@@ -1,4 +1,4 @@
-config-version: 2
+config-version: 6
 
 server-id: "survival-1"
 
@@ -19,8 +19,6 @@ warps:
     - "list"
     - "open"
     - "amount"
-    - "desc"
-    - "description"
     - "lock"
     - "unlock"
     - "rename"
@@ -30,7 +28,6 @@ warps:
     - "removeall"
     - "addwarps"
     - "purge"
-  description-max-length: 160
   allowed-worlds:
     mode: "BLACKLIST"
     worlds:
@@ -80,3 +77,16 @@ placeholders:
   fallback: "N/D"
   locked: "sí"
   unlocked: "no"
+  # Admite códigos de color con '&'. Estos valores se usan en %access_status% y %access_action% dentro del lore de los menús.
+  access:
+    allowed: "&aON"
+    locked: "&cBloqueado"
+    whitelist: "&cSin acceso"
+    allowed-action: "&eClic izquierdo &7para teletransportarte."
+    denied-action: "&cNo podés teletransportarte a este warp."
+  # Estos valores se usan en %locked% y %whitelist% dentro de los menús.
+  menu:
+    locked: "&cBloqueado"
+    unlocked: "&aDesbloqueado"
+    whitelist-enabled: "&aON"
+    whitelist-disabled: "&cOFF"

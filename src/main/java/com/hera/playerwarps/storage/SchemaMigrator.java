@@ -58,7 +58,6 @@ public final class SchemaMigrator {
                 + "z DOUBLE NOT NULL,"
                 + "yaw FLOAT NOT NULL,"
                 + "pitch FLOAT NOT NULL,"
-                + "description VARCHAR(160) NULL,"
                 + "icon_material VARCHAR(64) NULL,"
                 + "icon_data SMALLINT NOT NULL DEFAULT 0,"
                 + "locked BOOLEAN NOT NULL DEFAULT FALSE,"

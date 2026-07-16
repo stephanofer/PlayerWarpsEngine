@@ -92,7 +92,7 @@ public final class MysqlWarpRepository implements WarpRepository {
                 }
 
                 return new Warp(keys.getLong(1), request.serverId(), request.name().value(), request.name().normalized(), request.ownerUuid(),
-                        request.ownerName(), request.location(), null, null, (short) 0, request.locked(), request.whitelistEnabled(), 0L,
+                        request.ownerName(), request.location(), null, (short) 0, request.locked(), request.whitelistEnabled(), 0L,
                         SafeStatus.UNKNOWN, request.now(), request.now(), null);
             }
         }
@@ -176,19 +176,6 @@ public final class MysqlWarpRepository implements WarpRepository {
             } finally {
                 connection.setAutoCommit(true);
             }
-        }
-    }
-
-    @Override
-    public boolean updateDescription(String serverId, long id, String description, long updatedAt) throws SQLException {
-        String sql = "UPDATE player_warps SET description = ?, updated_at = ? WHERE server_id = ? AND id = ?";
-        try (Connection connection = this.database.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, description);
-            statement.setLong(2, updatedAt);
-            statement.setString(3, serverId);
-            statement.setLong(4, id);
-            return statement.executeUpdate() > 0;
         }
     }
 
@@ -307,7 +294,6 @@ public final class MysqlWarpRepository implements WarpRepository {
                         resultSet.getFloat("yaw"),
                         resultSet.getFloat("pitch")
                 ),
-                resultSet.getString("description"),
                 resultSet.getString("icon_material"),
                 resultSet.getShort("icon_data"),
                 resultSet.getBoolean("locked"),

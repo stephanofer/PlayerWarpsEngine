@@ -31,7 +31,7 @@ final class WarpBrowseServiceTest {
 
     private static Warp warp(long id, String name, boolean locked, boolean whitelistEnabled) {
         return new Warp(id, "server", name, name, UUID.randomUUID(), "owner",
-                new WarpLocation("world", 0D, 64D, 0D, 0F, 0F), null, null, (short) 0,
+                new WarpLocation("world", 0D, 64D, 0D, 0F, 0F), null, (short) 0,
                 locked, whitelistEnabled, 0L, SafeStatus.SAFE, 0L, 0L, null);
     }
 }

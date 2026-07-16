@@ -1,6 +1,7 @@
 package com.hera.playerwarps.config;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
 import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
@@ -85,6 +86,7 @@ public final class ConfigManager {
                     DumperSettings.DEFAULT,
                     UpdaterSettings.builder()
                             .setKeepAll(true)
+                            .setVersioning(new BasicVersioning("config-version"))
                             .build()
             );
         }

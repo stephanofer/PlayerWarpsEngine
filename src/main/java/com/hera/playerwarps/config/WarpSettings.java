@@ -13,17 +13,15 @@ public final class WarpSettings {
 
     private final Pattern namePattern;
     private final Set<String> reservedNames;
-    private final int descriptionMaxLength;
     private final AllowedWorldMode allowedWorldMode;
     private final Set<String> allowedWorlds;
     private final boolean defaultLocked;
     private final boolean defaultWhitelistEnabled;
 
-    private WarpSettings(Pattern namePattern, Set<String> reservedNames, int descriptionMaxLength, AllowedWorldMode allowedWorldMode,
+    private WarpSettings(Pattern namePattern, Set<String> reservedNames, AllowedWorldMode allowedWorldMode,
                          Set<String> allowedWorlds, boolean defaultLocked, boolean defaultWhitelistEnabled) {
         this.namePattern = namePattern;
         this.reservedNames = Collections.unmodifiableSet(new LinkedHashSet<String>(reservedNames));
-        this.descriptionMaxLength = descriptionMaxLength;
         this.allowedWorldMode = allowedWorldMode;
         this.allowedWorlds = Collections.unmodifiableSet(new LinkedHashSet<String>(allowedWorlds));
         this.defaultLocked = defaultLocked;
@@ -47,11 +45,6 @@ public final class WarpSettings {
             }
         }
 
-        int descriptionMaxLength = config.getInt("warps.description-max-length", 160);
-        if (descriptionMaxLength < 0) {
-            throw new IllegalArgumentException("warps.description-max-length cannot be negative");
-        }
-
         String modeName = config.getString("warps.allowed-worlds.mode", "BLACKLIST").trim().toUpperCase(Locale.ENGLISH);
         AllowedWorldMode allowedWorldMode;
         try {
@@ -71,7 +64,7 @@ public final class WarpSettings {
         boolean defaultLocked = config.getBoolean("warps.default-locked", false);
         boolean defaultWhitelistEnabled = config.getBoolean("warps.default-whitelist-enabled", false);
 
-        return new WarpSettings(namePattern, reservedNames, descriptionMaxLength, allowedWorldMode, allowedWorlds, defaultLocked, defaultWhitelistEnabled);
+        return new WarpSettings(namePattern, reservedNames, allowedWorldMode, allowedWorlds, defaultLocked, defaultWhitelistEnabled);
     }
 
     public Pattern namePattern() {
@@ -80,10 +73,6 @@ public final class WarpSettings {
 
     public Set<String> reservedNames() {
         return this.reservedNames;
-    }
-
-    public int descriptionMaxLength() {
-        return this.descriptionMaxLength;
     }
 
     public AllowedWorldMode allowedWorldMode() {

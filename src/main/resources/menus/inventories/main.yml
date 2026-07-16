@@ -20,8 +20,6 @@ items:
         - "&7Estado: &f%locked% &8/ &f%whitelist%"
         - "&7Acceso: %access_status%"
         - ""
-        - "&7%description%"
-        - ""
         - "%access_action%"
         - "&eClic derecho &7para administrar si te pertenece."
   search:

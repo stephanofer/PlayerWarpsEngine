@@ -65,13 +65,7 @@ public final class WarpBrowseService {
     }
 
     private static boolean matches(Warp warp, String query) {
-        if (normalize(warp.name()).contains(query)) {
-            return true;
-        }
-        if (normalize(warp.ownerName()).contains(query)) {
-            return true;
-        }
-        return normalize(warp.description()).contains(query);
+        return normalize(warp.name()).contains(query) || normalize(warp.ownerName()).contains(query);
     }
 
     public static String normalize(String value) {

@@ -4,6 +4,7 @@ import com.hera.playerwarps.PlayerWarpsPlugin;
 import com.hera.playerwarps.bootstrap.PluginScheduler;
 import com.hera.playerwarps.config.ConfigManager;
 import com.hera.playerwarps.config.MenuSettings;
+import com.hera.playerwarps.config.PlaceholderSettings;
 import com.hera.playerwarps.config.ConfigManager.LoadedConfig;
 import com.hera.playerwarps.menu.button.ConfiguredButton;
 import com.hera.playerwarps.menu.loader.ManageWarpButtonLoader;
@@ -68,6 +69,7 @@ public final class MenuService {
     private final WarpBrowseService browseService;
     private final MenuConfigValidator validator = new MenuConfigValidator();
     private final Map<String, Inventory> inventories = new HashMap<String, Inventory>();
+    private final Map<UUID, Long> openedMenuGenerations = new HashMap<UUID, Long>();
     private final List<Pattern> loadedPatterns = new ArrayList<Pattern>();
 
     private MenuPlugin menuPlugin;
@@ -116,6 +118,7 @@ public final class MenuService {
             this.buttonManager.unregisters(this.plugin);
         }
         this.inventories.clear();
+        this.openedMenuGenerations.clear();
     }
 
     public void validateReload(LoadedConfig loadedConfig) {
@@ -163,6 +166,7 @@ public final class MenuService {
             this.configManager.messages().send(player, "messages.menu-not-found");
             return;
         }
+        markMenuOpened(player);
         this.inventoryManager.openInventory(player, inventory, Math.max(1, page));
     }
 
@@ -197,12 +201,42 @@ public final class MenuService {
 
     public void removeSession(Player player) {
         this.sessionStore.remove(player);
+        this.openedMenuGenerations.remove(player.getUniqueId());
+    }
+
+    public void handleInventoryClose(final Player player) {
+        final UUID playerId = player.getUniqueId();
+        final Long closingGeneration = this.openedMenuGenerations.get(playerId);
+        if (closingGeneration == null) {
+            return;
+        }
+
+        this.scheduler.runLaterSync(new Runnable() {
+            @Override
+            public void run() {
+                Long currentGeneration = openedMenuGenerations.get(playerId);
+                if (!closingGeneration.equals(currentGeneration)) {
+                    return;
+                }
+
+                openedMenuGenerations.remove(playerId);
+                if (!sessionStore.hasPendingSearch(player)) {
+                    session(player).query("");
+                }
+            }
+        }, 1L);
     }
 
     public void clearSearch(Player player) {
         session(player).query("");
         this.configManager.messages().send(player, "messages.search-cleared");
         open(player, "main", 1);
+    }
+
+    private void markMenuOpened(Player player) {
+        UUID playerId = player.getUniqueId();
+        Long currentGeneration = this.openedMenuGenerations.get(playerId);
+        this.openedMenuGenerations.put(playerId, Long.valueOf(currentGeneration == null ? 1L : currentGeneration.longValue() + 1L));
     }
 
     public void nextSort(Player player) {
@@ -384,29 +418,30 @@ public final class MenuService {
         WarpAccessResult access = this.warpAccessService.canTeleport(player, warp);
         placeholders.register("warp", warp.name());
         placeholders.register("owner", warp.ownerName());
-        placeholders.register("description", warp.description() == null || warp.description().trim().isEmpty() ? "Sin descripción" : warp.description());
         placeholders.register("visits", String.valueOf(this.visitBuffer.effectiveVisits(warp)));
-        placeholders.register("locked", warp.locked() ? "bloqueado" : "desbloqueado");
-        placeholders.register("whitelist", warp.whitelistEnabled() ? "activada" : "desactivada");
         placeholders.register("world", warp.location().world());
-        placeholders.register("access_status", accessStatus(access));
-        placeholders.register("access_action", accessAction(access));
+        PlaceholderSettings placeholderSettings = this.configManager.settings().placeholderSettings();
+        placeholders.register("locked", warp.locked() ? placeholderSettings.menuLocked() : placeholderSettings.menuUnlocked());
+        placeholders.register("whitelist", warp.whitelistEnabled()
+                ? placeholderSettings.menuWhitelistEnabled() : placeholderSettings.menuWhitelistDisabled());
+        placeholders.register("access_status", accessStatus(access, placeholderSettings));
+        placeholders.register("access_action", accessAction(access, placeholderSettings));
     }
 
-    private static String accessStatus(WarpAccessResult access) {
+    private static String accessStatus(WarpAccessResult access, PlaceholderSettings settings) {
         if (access.isAllowed()) {
-            return "&adisponible";
+            return settings.accessAllowed();
         }
         if ("messages.teleport-locked".equals(access.messageKey())) {
-            return "&cbloqueado";
+            return settings.accessLocked();
         }
-        return "&cno pertenecés a la whitelist";
+        return settings.accessWhitelist();
     }
 
-    private static String accessAction(WarpAccessResult access) {
+    private static String accessAction(WarpAccessResult access, PlaceholderSettings settings) {
         return access.isAllowed()
-                ? "&eClic izquierdo &7para teletransportarte."
-                : "&cNo podés teletransportarte a este warp.";
+                ? settings.accessAllowedAction()
+                : settings.accessDeniedAction();
     }
 
     private Warp selectedWarp(Player player) {

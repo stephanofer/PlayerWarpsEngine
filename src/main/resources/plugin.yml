@@ -21,8 +21,6 @@ permissions:
     default: true
   pwarp.amount:
     default: true
-  pwarp.desc:
-    default: true
   pwarp.lock:
     default: true
   pwarp.reset:
