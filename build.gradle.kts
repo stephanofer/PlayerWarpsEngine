@@ -58,6 +58,7 @@ tasks.named<Jar>("jar") {
 }
 
 tasks.named<ShadowJar>("shadowJar") {
+    destinationDirectory.set(layout.projectDirectory.dir("target"))
     archiveClassifier.set("")
     relocate("dev.dejvokep.boostedyaml", "com.hera.playerwarps.libs.boostedyaml")
     relocate("com.github.benmanes.caffeine", "com.hera.playerwarps.libs.caffeine")
@@ -67,6 +68,10 @@ tasks.named<ShadowJar>("shadowJar") {
 
 tasks.assemble {
     dependsOn(tasks.shadowJar)
+}
+
+tasks.clean {
+    delete(layout.projectDirectory.dir("target"))
 }
 
 tasks.test {

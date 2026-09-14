@@ -1,5 +1,6 @@
 .gradle/
 build/
+target/
 out/
 *.iml
 .idea/
@@ -8,6 +9,5 @@ out/
 libs/*.jar
 libs/server.jar
 libs/zmenu-1.0.3.7.jar
-
 
 
